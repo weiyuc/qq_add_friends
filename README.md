@@ -1,5 +1,5 @@
 # qq_add_friends
-<h3>java实现qq自动加好友小程序</h3>
+<h3>java实现qq自动加好友小程序，可同时多个号添加多个好友</h3>
 
 1.可以使用eclipse导入maven项目
 
