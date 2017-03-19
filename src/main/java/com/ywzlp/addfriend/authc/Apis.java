@@ -1,7 +1,7 @@
 package com.ywzlp.addfriend.authc;
 
 /**
- * 接口地址
+ * 接口地址，由于webqq加好友的接口别屏蔽了，这里调用qq空间添加好友的接口
  * @author yuwei
  *
  */
