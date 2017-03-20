@@ -8,7 +8,6 @@ import com.ywzlp.addfriend.ui.MyFrame;
 
 /**
  * @author yuwei
- *
  */
 public class Application {
 

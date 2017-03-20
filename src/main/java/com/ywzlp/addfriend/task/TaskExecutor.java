@@ -2,6 +2,7 @@ package com.ywzlp.addfriend.task;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +18,13 @@ public class TaskExecutor implements AddFriends {
 	
 	private static Logger log = LoggerFactory.getLogger(TaskExecutor.class);
 	
+	private AtomicInteger sum;
+	
 	private ScheduledExecutorService executor;
 	
 	public TaskExecutor() {
 		executor = ExecutorUtil.createSheduledExecute("add-user", 200);
+		sum = new AtomicInteger(0);
 	}
 
 	@Override
@@ -41,13 +45,13 @@ public class TaskExecutor implements AddFriends {
 						log.info("{} 好友重返队列", qq);
 						TaskPool.submit(qq);
 					} else {
-						log.info("{} 好友请求发送成功", qq);
+						log.info("{} 好友请求发送成功, 当前共添加 {} 个好友", qq, sum.incrementAndGet());
 					}
 				} else {
 					log.info("所有任务已经认领完毕...");
 				}
 			}
-		}, 0, 1, TimeUnit.MINUTES);
+		}, 0, 2, TimeUnit.MINUTES);
 	}
 	
 }

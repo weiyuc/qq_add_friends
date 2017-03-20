@@ -1,5 +1,6 @@
 package com.ywzlp.addfriend.task;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -22,12 +23,13 @@ public class TaskPool {
 	}
 	
 	public static void submit(Long task) {
-		log.info("成功导入账号 " + task);
 		queue.offer(task);
+		log.info("成功导入账号 " + task);
 	}
 
 	public static void submit(Collection<Long> tasks) {
 		queue.addAll(tasks);
+		log.info("成功导入账号 " + Arrays.toString(tasks.toArray()));
 	}
 
 	public static long getTaskNum() {

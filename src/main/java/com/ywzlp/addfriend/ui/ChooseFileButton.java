@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -44,10 +46,15 @@ public class ChooseFileButton extends JButton {
 						FileReader fr = new FileReader(file);
 						br = new BufferedReader (fr);
 						String line = null;
+						//去重
+						Set<Long> nums = new HashSet<>();
 						while((line = br.readLine()) != null) {
 							if (line.trim().length() > 0) {
-								TaskPool.submit(Long.valueOf(line.trim()));
+								nums.add(Long.valueOf(line.trim()));
 							}
+						}
+						if (nums.size() > 0) {
+							TaskPool.submit(nums);
 						}
 					} catch (Exception e2) {
 						log.info("导入文件[" + file.getName() + "]发生异常,请检查文件格式");

@@ -166,7 +166,7 @@ public class QQSession {
 		LOGGER.debug("等待扫描二维码");
 		try {
 			while (!isStop) {
-				Thread.sleep(500);
+				Thread.sleep(2000);
 				Response<String> response = get(Apis.VERIFY_QR_CODE, hash33(qrsig), qrsig);
 				String result = response.getBody();
 				if (result.contains("成功")) {
@@ -205,7 +205,8 @@ public class QQSession {
 				g_tk = hash5381(p_skey);
 			}
 		}
-		onLoginSuccess(callback);
+		LOGGER.info(uin + " 登录成功");
+		callback.onLoginSuccess(this);
 	}
 	
 	public boolean addFriend(long friendQQ) {
@@ -216,7 +217,9 @@ public class QQSession {
 		formData.put("uin", uin);
 		formData.put("fupdate", 1);
 		formData.put("rd", Math.random());
-		formData.put("strmsg", "万水千山总是情加个好友行不行");
+		//验证消息
+		formData.put("strmsg", "熟人介绍");
+		//组id
 		formData.put("groupId", 1);
 		formData.put("flag", 0);
 		formData.put("chat", "");
@@ -239,7 +242,7 @@ public class QQSession {
 			return false;
 		}
 		LOGGER.warn(response);
-		return false;
+		return true;
 	}
 
 	// 发送get请求
@@ -293,22 +296,15 @@ public class QQSession {
 		}
 	}
 	
-	public void onLoginSuccess(CallBack callback) {
-		LOGGER.info(uin + " 登录成功");
-		callback.onLoginSuccess(this);
-	}
-	
 	public long getUid() {
 		return this.uin;
 	}
 
 	public void close() {
 		LOGGER.info("正在关闭 {} 连接...", uin);
-		if (dialog != null) {
-			dialog.setVisible(false);
-			dialog.dispose();
-			dialog = null;
-		}
+		this.closeDialog();
+		this.session = null;
+		this.client = null;
 		this.isStop = true;
 	}
 	
